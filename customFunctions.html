@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button type="button" id="bigger">isBigger function</button>
+    <button type="button" id="smaller">isSmaller function</button>
+    <button type="button" id="min">getMin function</button>
+    <button type="button" id="prime">isPrime function</button>
+    <button type="button" id="closestToZero">getClosestToZero function</button>
+    <button type="button" id="reverse">reverseNumber function</button>
+</body>
+<script>
+    const forListener = document.querySelector("body");
+
+    const isBigger = () => {
+        const num1 = parseFloat(prompt("Give me first number: "));
+        const num2 = parseFloat(prompt("Give me second number: "));
+
+        console.log(`Number ${num1} is greater than ${num2}:`, num1 > num2);
+    };
+
+    const isSmaller = () => {
+        const num1 = parseFloat(prompt("Give me first number: "));
+        const num2 = parseFloat(prompt("Give me second number: "));
+
+        console.log(`Number ${num1} is lesser than ${num2}:`, num1 < num2);
+    };
+
+    const getMin = () => {
+        const nums = prompt("Give me numbers you need to get minimal value from (separate them with comma): ");
+        const result = nums.split(",").sort((a,b) => parseFloat(a) - parseFloat(b))[0];
+
+        console.log(`Minimum number for the array ${nums} is:`, result);
+    };
+
+    const isPrime = () => {
+        const num = parseFloat(prompt("Give me the number: "));
+
+        let n = 2;
+        let divided = false;
+
+        while (n <= 100 && !divided) {
+            if(num % n === 0 && num !== n) {
+                divided = true
+            };
+            n += 1;
+        };
+
+        console.log(`${num} is a prime number:`, !divided);
+    };
+
+    const getClosestToZero = () => {
+        const nums = prompt("Give me numbers you need to get minimal value from (separate them with comma): ");
+        const result = nums.split(",").sort((a,b) => Math.abs(parseFloat(a)) - Math.abs(parseFloat(b)))[0];
+
+        console.log(`Closest number to zero for the array ${nums} is:`, result);
+    };
+
+    const reverseNumber = () => {
+        const num = prompt("Give me the number: ");
+        let result;
+
+        if (num.startsWith("-")){
+            result = -parseFloat(num.split("").slice(1,num.length).reverse().join(""));
+        }else{
+            result = parseFloat(num.split("").reverse().join(""));
+        };
+
+        console.log(`Reversed version of the number ${num} is:`, result);
+    };
+
+    const FUNCTIONS = {
+        bigger: isBigger,
+        smaller: isSmaller,
+        min: getMin,
+        prime: isPrime,
+        closestToZero: getClosestToZero,
+        reverse: reverseNumber,
+    };
+
+    const funcChoice = (e) => {
+        const {id} = e.target;
+
+        FUNCTIONS[id]();
+    }
+
+    forListener.addEventListener("click", funcChoice);
+</script>
+</html>

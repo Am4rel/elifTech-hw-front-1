@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>If you want to start a game - press the button below.</h2>
+    <button type="button">Start the game!</button>
+</body>
+<script>
+    const button = document.querySelector("button");
+
+    let range = [0,5];
+    let attempts = 3;
+    let possiblePrizes = [10, 5, 2];
+    let totalPrize = 0;
+    let guessed = false;
+    let gamesPlayed = 0;
+
+    const renewValues = (userWon, playAgain) => {
+        totalPrize = userWon && playAgain ? totalPrize + possiblePrizes[3 - attempts - 1] : 0;
+        range =  userWon && playAgain ? [0, range[1]*2] : [0,5];
+        possiblePrizes =  userWon && playAgain ? possiblePrizes.map(sum => sum*3) : [10, 5, 2];
+        attempts = 3;
+        guessed = false;
+        gamesPlayed = userWon && playAgain ? gamesPlayed + 1 : 0;
+    }
+
+    const game = () => {   
+        if (gamesPlayed === 0){
+            const confirmation = confirm("Do you want to play a guess game?")
+
+            if (!confirmation){
+                console.log("You did not become a millionaire");
+                return;
+            }
+        };
+
+        const numToGuess = Math.round(Math.random()*range[1]);
+
+        
+        while (attempts > 0 && !guessed) {
+            let userTry = prompt(`Enter a number from ${range[0]} to ${range[1]}\nAttempts left: ${attempts}\nTotal prize: $${totalPrize}\nPossible prize on current attempt: $${possiblePrizes[3 - attempts]}`);
+            attempts -= 1;
+            
+            if (parseInt(userTry) === numToGuess){
+                guessed = true;
+            };
+        };
+
+        if (!guessed){
+            const playAgain = confirm("You lost... Do you want to try again?");
+
+            renewValues(false, playAgain);
+
+            !playAgain ? console.log(`Thank you for a game. Your prize is: $${totalPrize}`) : game();
+            return;
+        };
+
+        const continueGame = confirm("Congrats, you won! Do you want to continue a game?");
+        
+        if (continueGame){
+            renewValues(true, continueGame);
+            game();
+        }else{
+            console.log(`Thank you for a game. Your prize is: $${totalPrize + possiblePrizes[3 - attempts - 1]}`);
+            renewValues(true, continueGame);
+        }
+        return;
+    };
+
+    button.addEventListener("click", game);
+</script>
+</html>

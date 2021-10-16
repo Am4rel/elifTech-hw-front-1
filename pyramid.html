@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>You can draw a pyramid in the console!</h2>
+    <p>To do this you need to:</p>
+    <ol>
+        <li>Press the button below to start.</li>
+        <li>Fill the prompt window with the number from 1 to 20.</li>
+        <li>Open the console with pressing Ctrl + Shift + J (or Cmd + Shift + J on a Mac) key combination.</li>
+        <li>If you see the error message in the console or want to try again, reload the page.</li>
+    </ol>
+
+    <button type="button">Try it out!</button>
+</body>
+<script>
+    const button = document.querySelector("button");
+
+    const drawPyramid = () => {
+        const input = parseInt(prompt("Fill in the number of a pyramid levels (from 1 to 20): "));
+
+        const block = "[~]";
+        const space = "   ";
+        let construction = "";
+
+        if (input < 1 || input > 20 || input === NaN){
+            console.error({message: "Incorrect! Reload page to try again."})
+        }else{
+            for (let x = input; x > 0; x--){
+                let blocks = block.repeat((x - 1) * 2 + 1);
+                let spaces = x === input ? "" : space.repeat(input - x);
+                construction = spaces + blocks + "\n" + construction;
+            };
+
+            console.log(construction);
+        }
+    }
+
+    button.addEventListener("click", drawPyramid);
+    
+</script>
+</html>
